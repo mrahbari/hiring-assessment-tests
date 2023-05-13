@@ -14,7 +14,7 @@ function reverse_string($str) {
 echo reverse_string("hello"); // Outputs "olleh"
 ```
 
-Find the largest number in an array: Write a function that takes an array of integers as input and returns the largest number in the array. For example, [10, 20, 30, 40, 50] should return 50.
+- Find the largest number in an array: Write a function that takes an array of integers as input and returns the largest number in the array. For example, [10, 20, 30, 40, 50] should return 50.
 
 ```php
 function find_largest($arr) {
@@ -149,7 +149,7 @@ function fibonacci_sequence($n) {
 
 // Test the function
 echo implode(", ", fibonacci_sequence(10));
-
+```
 
 - Reverse a linked list: Write a function that takes the head node of a linked list as input and returns the head node of the reversed linked list. For example, if the linked list is 1->2->3->4, the function should return 4->3->2->1.
 
