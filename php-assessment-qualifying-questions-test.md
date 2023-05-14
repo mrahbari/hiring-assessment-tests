@@ -1,6 +1,5 @@
 ## PHP assessment test questions
-#### Qualifying questions are always in one of two formats (assessment):
-
+#### Qualifying questions are always in one of two formats (True/false and Multiple-choice):
 
 ### What is the output of the following code?
 ```
