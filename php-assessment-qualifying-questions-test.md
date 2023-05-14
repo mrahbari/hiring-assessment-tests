@@ -1,8 +1,41 @@
 ## PHP assessment test questions
 #### Qualifying questions are always in one of two formats (assessment):
-- True/false
-- Multiple-choice 
 
+
+### What is the output of the following code?
+```
+echo 1 <=> 2; // Output: -1
+echo 2 <=> 2; // Output: 0
+echo 2 <=> 1; // Output: 1
+```
+
+### What is the output of the following code?
+```
+// Example 1
+$a = null;
+$a ??= "Hello";
+echo $a; // Output: Hello
+
+// Example 2
+$b = "World";
+$b ??= "Hello";
+echo $b; // Output: World
+```
+In Example 1, since `$a` is null, it is assigned the value "Hello" using the null coalescing assignment operator `??=`. In Example 2, since `$b` is not null, it is not assigned the value "Hello" and its original value "World" is kept.
+??= assigns a value to a variable only if it is currently null using the null coalescing assignment operator in PHP?
+
+### What is the output of the following code?
+```
+$x = 5; // binary representation: 0101
+$y = 3; // binary representation: 0011
+
+echo $x & $y; // Output: 1 (binary representation: 0001)
+echo $x | $y; // Output: 7 (binary representation: 0111)
+echo $x ^ $y; // Output: 6 (binary representation: 0110)
+echo ~$x; // Output: -6 (binary representation: 1010)
+echo $x << 2; // Output: 20 (binary representation: 10100)
+echo $y >> 1; // Output: 1 (binary representation: 0001)
+```
 
 ### What is the output of the following code?
 ```
@@ -897,4 +930,4 @@ b) array("one", "two", "three")
 c) array("one"=>1, "two"=>2, "three"=>3)
 d) array(1=> "one", 2=>"two", 3=>"three")
 Answer: c) array("one"=>1, "two"=>2, "three"=>3)
-**In PHP, an associative array is an array that uses named keys instead of numeric keys. In the example given, the keys are "one", "two", and "three", and the corresponding values are 1, 2, and ### Therefore, this is an example of a PHP associative array.**
+**In PHP, an associative array is an array that uses named keys instead of numeric keys. In the example given, the keys are "one", "two", and "three", and the corresponding values are 1, 2, and Therefore, this is an example of a PHP associative array.**
