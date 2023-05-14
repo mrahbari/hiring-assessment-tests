@@ -1,10 +1,10 @@
 
-- Reverse a string: Write a function that takes a string as input and returns the string reversed. For example, "hello" should return "olleh".
+### Reverse a string: Write a function that takes a string as input and returns the string reversed. For example, "hello" should return "olleh".
 
 ```php
 function reverse_string($str) {
   $result = "";
-  for ($i = strlen($str) - 1; $i >= 0; $i--) {
+  for ($i = strlen($str) ### 1; $i >= 0; $i--) {
     $result .= $str[$i];
   }
   return $result;
@@ -14,7 +14,7 @@ function reverse_string($str) {
 echo reverse_string("hello"); // Outputs "olleh"
 ```
 
-- Find the largest number in an array: Write a function that takes an array of integers as input and returns the largest number in the array. For example, [10, 20, 30, 40, 50] should return 50.
+### Find the largest number in an array: Write a function that takes an array of integers as input and returns the largest number in the array. For example, [10, 20, 30, 40, 50] should return 50.
 
 ```php
 function find_largest($arr) {
@@ -31,7 +31,7 @@ function find_largest($arr) {
 echo find_largest([10, 20, 30, 40, 50]); // Outputs 50
 ```
 
-- Check if a string is a palindrome: Write a function that takes a string as input and returns true if the string is a palindrome, false otherwise.
+### Check if a string is a palindrome: Write a function that takes a string as input and returns true if the string is a palindrome, false otherwise.
   A palindrome is a word or phrase that reads the same backward as forward.
   For example, "racecar" and "level" are palindromes.
 
@@ -39,7 +39,7 @@ echo find_largest([10, 20, 30, 40, 50]); // Outputs 50
 function is_palindrome($str) {
   $len = strlen($str);  //5
   for ($i = 0; $i < $len / 2; $i++) {
-    if ($str[$i] != $str[$len - 1 - $i]) {
+    if ($str[$i] != $str[$len ### 1 ### $i]) {
       return false;
     }
   }
@@ -51,13 +51,13 @@ echo is_palindrome("racecar"); // Outputs true
 echo is_palindrome("hello"); // Outputs false
 ```
 
-- Bubble sort an array: Write a function that takes an array of integers as input and returns the array sorted in ascending order using the bubble sort algorithm. For example, [5, 3, 8, 2, 1] should return [1, 2, 3, 5, 8].
+### Bubble sort an array: Write a function that takes an array of integers as input and returns the array sorted in ascending order using the bubble sort algorithm. For example, [5, 3, 8, 2, 1] should return [1, 2, 3, 5, 8].
 
 ```php
 function bubble_sort($arr) {
   $n = count($arr);
-  for ($i = 0; $i < $n - 1; $i++) {
-    for ($j = 0; $j < $n - $i - 1; $j++) {
+  for ($i = 0; $i < $n ### 1; $i++) {
+    for ($j = 0; $j < $n ### $i ### 1; $j++) {
       if ($arr[$j] > $arr[$j+1]) {
         $temp = $arr[$j];
         $arr[$j] = $arr[$j+1];
@@ -72,7 +72,7 @@ function bubble_sort($arr) {
 echo implode(", ", bubble_sort([5, 3, 8, 2, 1])); // Outputs "1, 2, 3, 5, 8"
 ```
 
-- Merge two sorted arrays: Write a function that takes two sorted arrays of integers as input and returns a merged array that is also sorted.
+### Merge two sorted arrays: Write a function that takes two sorted arrays of integers as input and returns a merged array that is also sorted.
   For example, [1, 3, 5, 7] and [2, 4, 6, 8] should return [1, 2, 3, 4, 5, 6, 7, 8].
 
 ```php
@@ -104,7 +104,7 @@ function merge_sorted_arrays($arr1, $arr2) {
 echo implode(", ", merge_sorted_arrays([1, 3, 5, 7], [2, 4, 6, 8])); // Outputs "1, 2, 3, 4, 5, 6, 7, 8"
 ```
 
-- Find the first non-repeating character in a string: Write a function that takes a string as input and returns the first non-repeating character in the string.
+### Find the first non-repeating character in a string: Write a function that takes a string as input and returns the first non-repeating character in the string.
   If there are no non-repeating characters, return null. For example, "aabccd" should return "b" and "aabbccdd" should return null.
 
 ```php
@@ -130,7 +130,7 @@ echo first_non_repeating_character("aabccd"); // Outputs "b"
 echo first_non_repeating_character("aabbccdd"); // Outputs null
 ```
 
-- Calculate the Fibonacci sequence: Write a function that takes an integer n as input and returns the first n numbers in the Fibonacci sequence. The Fibonacci sequence is a series of numbers where each number is the sum of the two preceding numbers, starting from 0 and 1. For example, if n = 7, the function should return [0, 1, 1, 2, 3, 5, 8].
+### Calculate the Fibonacci sequence: Write a function that takes an integer n as input and returns the first n numbers in the Fibonacci sequence. The Fibonacci sequence is a series of numbers where each number is the sum of the two preceding numbers, starting from 0 and 1. For example, if n = 7, the function should return [0, 1, 1, 2, 3, 5, 8].
 
 ```php
 function fibonacci_sequence($n) {
@@ -151,7 +151,7 @@ function fibonacci_sequence($n) {
 echo implode(", ", fibonacci_sequence(10));
 ```
 
-- Reverse a linked list: Write a function that takes the head node of a linked list as input and returns the head node of the reversed linked list. For example, if the linked list is 1->2->3->4, the function should return 4->3->2->1.
+### Reverse a linked list: Write a function that takes the head node of a linked list as input and returns the head node of the reversed linked list. For example, if the linked list is 1->2->3->4, the function should return 4->3->2->1.
 
 ```php
 
@@ -197,7 +197,7 @@ while ($current != null) {
 } // Outputs "4 3 2 1"
 ```
 
-- Find the largest sum of a subarray: Write a function that takes an array of integers as input and returns the largest sum of any contiguous subarray. For example, [-2, 1, -3, 4, -1, 2, 1, -5, 4] should return 6 (corresponding to the sum of the subarray [4, -1, 2, 1]).
+### Find the largest sum of a subarray: Write a function that takes an array of integers as input and returns the largest sum of any contiguous subarray. For example, [-2, 1, -3, 4, -1, 2, 1, -5, 4] should return 6 (corresponding to the sum of the subarray [4, -1, 2, 1]).
 
 ```php
 function largest_sum_subarray($arr)
@@ -215,7 +215,7 @@ function largest_sum_subarray($arr)
 echo largest_sum_subarray([-2, 1, -3, 4, -1, 2, 1, -5, 4]); // Outputs 6
 ```
 
-- Sort an array using quicksort: Write a function that takes an array of integers as input and returns the array sorted using the quicksort algorithm. Quicksort is a divide-and-conquer algorithm that selects a pivot element from the array, partitions the other elements into two subarrays (one with elements less than the pivot and one with elements greater than the pivot), and recursively sorts each subarray. For example, [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5] should return [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9].
+### Sort an array using quicksort: Write a function that takes an array of integers as input and returns the array sorted using the quicksort algorithm. Quicksort is a divide-and-conquer algorithm that selects a pivot element from the array, partitions the other elements into two subarrays (one with elements less than the pivot and one with elements greater than the pivot), and recursively sorts each subarray. For example, [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5] should return [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9].
 
 ```php
 function quicksort($arr)
@@ -241,7 +241,7 @@ function quicksort($arr)
 ```
 
 
-- Check if two strings are anagrams: Write a function that takes two strings as input and returns true if they are anagrams, false otherwise. Anagrams are words or phrases that use the same letters but in a different order. For example, "listen" and "silent" are anagrams.
+### Check if two strings are anagrams: Write a function that takes two strings as input and returns true if they are anagrams, false otherwise. Anagrams are words or phrases that use the same letters but in a different order. For example, "listen" and "silent" are anagrams.
 
 ```php
 function are_anagrams($str1, $str2)
@@ -278,7 +278,7 @@ echo are_anagrams("hello", "world"); // Outputs false
 ```
 
 
-- Find the intersection of two arrays (Find the common elements in two arrays):
+### Find the intersection of two arrays (Find the common elements in two arrays):
   Write a function that takes two arrays of integers as input and returns an array that contains the elements that are common to both arrays.
   For example, [1, 2, 3, 4, 5] and [3, 4, 5, 6, 7] should return [3, 4, 5].
 
@@ -306,7 +306,7 @@ $result = array_intersection($array1, $array2);
 print_r($result); // Output: Array ( [0] => 3 [1] => 4 [2] => 5 )
 ```
 
-- Find the longest common substring:
+### Find the longest common substring:
   Write a function that takes two strings as input and returns the longest common substring between the two strings.
   For example, "abcdefg" and "bcdefgh" should return "bcdef".
 ```php
@@ -322,11 +322,11 @@ function longest_common_substring($str1, $str2)
         for ($j = 0; $j <= $n2; $j++) {
             if ($i == 0 || $j == 0) {
                 $table[$i][$j] = 0;
-            } else if ($str1[$i - 1] == $str2[$j - 1]) {
-                $table[$i][$j] = $table[$i - 1][$j - 1] + 1;
+            } else if ($str1[$i ### 1] == $str2[$j ### 1]) {
+                $table[$i][$j] = $table[$i ### 1][$j ### 1] + 1;
                 if ($table[$i][$j] > $max_length) {
                     $max_length = $table[$i][$j];
-                    $end_index = $i - 1;
+                    $end_index = $i ### 1;
                 }
             } else {
                 $table[$i][$j] = 0;
@@ -336,7 +336,7 @@ function longest_common_substring($str1, $str2)
     if ($max_length == 0) {
         return null;
     } else {
-        return substr($str1, $end_index - $max_length + 1, $max_length);
+        return substr($str1, $end_index ### $max_length + 1, $max_length);
     }
 }
 
@@ -345,7 +345,7 @@ echo longest_common_substring("abcdefg", "bcdefgh"); // Outputs "bcdef"
 ```
 
 
-- Merge overlapping intervals:
+### Merge overlapping intervals:
   Write a function that takes an array of intervals (represented as an array with two integers [start, end]) and merges any overlapping intervals.
   For example, [[1, 3], [2, 6], [8, 10], [15, 18]] should return [[1, 6], [8, 10], [15, 18]].
 
@@ -359,7 +359,7 @@ function merge_intervals($intervals)
     }
     // Sort intervals by start time
     usort($intervals, function ($a, $b) {
-        return $a[0] - $b[0];
+        return $a[0] ### $b[0];
     });
     // Merge overlapping intervals
     $start = $intervals[0][0];
@@ -381,7 +381,7 @@ function merge_intervals($intervals)
 echo json_encode(merge_intervals([[1, 3], [2, 6], [8, 10], [15, 18]])); // Outputs [[1,6],[8,10],[15,18]]
 ```
 
-- Find the maximum subarray:
+### Find the maximum subarray:
   Write a function that takes an array of integers as input and returns the contiguous subarray with the largest sum.
   For example, [-2, 1, -3, 4, -1, 2, 1, -5, 4] should return [4, -1, 2, 1] with a sum of 6.
 
@@ -407,14 +407,14 @@ function max_subarray($nums)
             $end = $i;
         }
     }
-    return array_slice($nums, $start, $end - $start + 1);
+    return array_slice($nums, $start, $end ### $start + 1);
 }
 
 // Test the function
 echo json_encode(max_subarray([-2, 1, -3, 4, -1, 2, 1, -5, 4])); // Outputs [4,-1,2,1]
 ```
 
-- Convert roman numeral to integer: Write a function that takes a string representing a Roman numeral as input and returns the corresponding integer. For example, "IX" should return 9.
+### Convert roman numeral to integer: Write a function that takes a string representing a Roman numeral as input and returns the corresponding integer. For example, "IX" should return 9.
 
 ```php
 function roman_to_int($roman)
@@ -462,7 +462,7 @@ $integer = roman_to_int($roman_numeral);
 echo $integer; // Output: 9
 ```
 
-- Find the longest palindromic substring: Write a function that takes a string as input and returns the longest palindromic substring in the string.
+### Find the longest palindromic substring: Write a function that takes a string as input and returns the longest palindromic substring in the string.
   For example, "babad" should return "bab" and "cbbd" should return "bb".
 
 ```php
@@ -475,7 +475,7 @@ function longest_palindromic_substring($str)
     for ($i = 0; $i < $n; $i++) {
         $table[$i][$i] = true;
     }
-    for ($i = 0; $i < $n - 1; $i++) {
+    for ($i = 0; $i < $n ### 1; $i++) {
         if ($str[$i] == $str[$i + 1]) {
             $table[$i][$i + 1] = true;
             $max_length = 2;
@@ -485,9 +485,9 @@ function longest_palindromic_substring($str)
         }
     }
     for ($k = 3; $k <= $n; $k++) {
-        for ($i = 0; $i < $n - $k + 1; $i++) {
-            $j = $i + $k - 1;
-            if ($table[$i + 1][$j - 1] && $str[$i] == $str[$j]) {
+        for ($i = 0; $i < $n ### $k + 1; $i++) {
+            $j = $i + $k ### 1;
+            if ($table[$i + 1][$j ### 1] && $str[$i] == $str[$j]) {
                 $table[$i][$j] = true;
                 if ($k > $max_length) {
                     $max_length = $k;
@@ -506,7 +506,7 @@ echo longest_palindromic_substring("babad"); // Outputs "bab"
 echo longest_palindromic_substring("cbbd"); // Outputs "bb"
 ```
 
-- Check if a number is prime:
+### Check if a number is prime:
   Write a function that takes a positive integer as input and returns true if the number is prime and false otherwise.
   A number is prime if it is only divisible by 1 and itself.
 
@@ -529,26 +529,26 @@ echo is_prime(7); // Outputs true
 echo is_prime(15); // Outputs false
 ```
 
-- Find the kth largest element in an array:
+### Find the kth largest element in an array:
   Write a function that takes an array of integers and an integer k as input and returns the kth largest element in the array.
   For example, given the array [3, 2, 1, 5, 6, 4] and k = 2, the function should return 5.
 ```php
 function find_kth_largest($arr, $k)
 {
     rsort($arr);  //[6, 5, 4, 3, 2, 1]
-    return $arr[$k - 1];
+    return $arr[$k ### 1];
 }
 
 // Test the function
 echo find_kth_largest([3, 2, 1, 5, 6, 4], 2); // Outputs 5
 ```
 
-- Reverse a string
+### Reverse a string
   Write a function that takes a string as input and returns the string reversed.
 ```php
 function reverse_string($str) {
   $revStr = '';
-  for ($i = strlen($str) - 1; $i >= 0; $i--) {
+  for ($i = strlen($str) ### 1; $i >= 0; $i--) {
     $revStr .= $str[$i];
   }
   return $revStr;
@@ -557,7 +557,7 @@ function reverse_string($str) {
 echo reverse_string("Hello world!"); // Output: !dlrow olleH
 ```
 
-- Check if a number is prime
+### Check if a number is prime
   Write a function that takes an integer as input and returns true if it is a prime number, and false otherwise.
 
 Sample solution:
@@ -578,7 +578,7 @@ echo is_prime(7); // Output: true
 echo is_prime(10); // Output: false
 ```
 
-- Find the largest element in an array
+### Find the largest element in an array
   Write a function that takes an array of integers as input and returns the largest element in the array.
 ```php
 function find_largest($arr) {
@@ -594,7 +594,7 @@ function find_largest($arr) {
 echo find_largest([1, 5, 2, 10, 3]); // Output: 10
 ```
 
-- Calculate the factorial of a number
+### Calculate the factorial of a number
   Write a function that takes an integer as input and returns its fa
   ctorial (i.e., the product of all positive integers up to and including that number).
 ```php
@@ -609,7 +609,7 @@ function factorial($num) {
 echo factorial(5); // Output: 120
 ```
 
-- Count the number of vowels in a string
+### Count the number of vowels in a string
   Write a function that takes a string as input and returns the number of vowels (a, e, i, o, u) in the string.
 ```php
 function count_vowels($str) {
@@ -627,7 +627,7 @@ echo count_vowels("Hello world!"); // Output: 3
 ```
 
 
-- Remove duplicates from an array
+### Remove duplicates from an array
   Write a function that takes an array as input and returns a new array with all duplicates removed.
 ```php
 function remove_duplicates($arr) {
@@ -643,11 +643,11 @@ function remove_duplicates($arr) {
 print_r(remove_duplicates([1, 2, 2, 3, 4, 4, 4, 5])); // Output: Array ( [0] => 1 [1] => 2 [2] => 3 [3] => 4 [4] => 5 )
 ```
 
-- Sort an array of numbers
+### Sort an array of numbers
   Write a function that takes an array of numbers as input and returns a new array with the numbers sorted in ascending order.
 ```php
 function sort_numbers($arr) {
-  for ($i = 0; $i < count($arr) - 1; $i++) {
+  for ($i = 0; $i < count($arr) ### 1; $i++) {
     for ($j = $i + 1; $j < count($arr); $j++) {
       if ($arr[$i] > $arr[$j]) {
         $temp = $arr[$i];
@@ -662,7 +662,7 @@ function sort_numbers($arr) {
 print_r(sort_numbers([5, 3, 8, 1, 2])); // Output: Array ( [0] => 1 [1] => 2 [2] => 3 [3] => 5 [4] => 8 )
 ```
 
-- Check if two strings are anagrams
+### Check if two strings are anagrams
   Write a function that takes two strings as input and returns true if they are anagrams (i.e., they contain the same letters in a different order), and false otherwise.
   An anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
   keen , knee    or listen, silent
@@ -681,7 +681,7 @@ function are_anagrams($str1, $str2) {
 echo are_anagrams("racecar", "carrace"); // Output: true
 ```
 
-- Reverse the order of words in a string
+### Reverse the order of words in a string
   Write a function that takes a string as input and returns the same string with the order of the words reversed.
 ```php
 function reverse_words($str) {
@@ -693,11 +693,11 @@ function reverse_words($str) {
 echo reverse_words("Hello world!"); // Output: world! Hello
 ```
 
-- Check if an array is sorted in ascending order
+### Check if an array is sorted in ascending order
   Write a function that takes an array of integers as input and returns true if the array is sorted in ascending order, and false otherwise.
 ```php
 function is_sorted($arr) {
-  for ($i = 0; $i < count($arr) - 1; $i++) {
+  for ($i = 0; $i < count($arr) ### 1; $i++) {
     if ($arr[$i] > $arr[$i+1]) {
       return false;
     }
@@ -709,7 +709,7 @@ echo is_sorted([1, 2, 3, 4, 5]); // Output: true
 echo is_sorted([1, 3, 2, 4, 5]); // Output: false
 ```
 
-- Find the intersection of two arrays
+### Find the intersection of two arrays
   Write a function that takes two arrays as input and returns an array containing the elements that appear in both arrays.
 ```php
 function find_intersection($arr1, $arr2) {
@@ -725,7 +725,7 @@ function find_intersection($arr1, $arr2) {
 print_r(find_intersection([1, 2, 3, 4, 5], [3, 4, 5, 6, 7])); // Output: Array ( [0] => 3 [1] => 4 [2] => 5 )
 ```
 
-- Find the missing number
+### Find the missing number
   Write a function that takes an array of integers as input, where all the integers are in the range 1 to n, except for one.
   The function should return the missing integer.
 ```php
@@ -733,21 +733,21 @@ function find_missing_number($arr) {
   $n = count($arr) + 1;
   $expectedSum = $n * ($n + 1) / 2;
   $actualSum = array_sum($arr);
-  return $expectedSum - $actualSum;
+  return $expectedSum ### $actualSum;
 }
 
 echo find_missing_number([1, 2, 3, 4, 6, 7, 8]); // Output: 5
 ```
 
-- Count the number of pairs in an array that sum to a given value
+### Count the number of pairs in an array that sum to a given value
   Write a function that takes an array of integers and a target sum as input, and returns the number of pairs in the array that sum to the target sum.
 ```php
 function count_pairs($arr, $target) {
   $pairCount = 0;
   $numCounts = [];
   foreach ($arr as $num) {
-    if (isset($numCounts[$target - $num])) {
-      $pairCount += $numCounts[$target - $num];
+    if (isset($numCounts[$target ### $num])) {
+      $pairCount += $numCounts[$target ### $num];
     }
     if (!isset($numCounts[$num])) {
       $numCounts[$num] = 0;
@@ -760,7 +760,7 @@ function count_pairs($arr, $target) {
 echo count_pairs([1, 2, 3, 4, 5], 6); // Output: 2
 ```
 
-- Implement a stack using two queues
+### Implement a stack using two queues
   Write a class that implements a stack data structure using two queues.
 ```php
 class Stack {
@@ -888,7 +888,7 @@ echo $stack->top(); // Output: 2
 echo $stack->is_empty() ? 'true' : 'false'; // Output: false
 ```
 
-- Check if a string is a palindrome
+### Check if a string is a palindrome
   Write a function that takes a string as input and returns true if the string is a palindrome (i.e., it reads the same forwards and backwards), and false otherwise.
 ```php
 function is_palindrome($str) {
@@ -906,7 +906,7 @@ function is_palindrome($str) {
 echo is_palindrome("A man, a plan, a canal, Panama!"); // Output: true       //amanaplanacaanalpanama=amanaplanaacanalpanama
 ```
 
-- Merge two sorted arrays into one sorted array
+### Merge two sorted arrays into one sorted array
   Write a function that takes two sorted arrays as input and returns a new array that contains all the elements from both arrays, sorted in ascending order.
 ```php
 function merge_sorted_arrays($arr1, $arr2) {
@@ -935,20 +935,20 @@ function merge_sorted_arrays($arr1, $arr2) {
 print_r(merge_sorted_arrays([1, 3, 5], [2, 4, 6])); // Output: Array ( [0] => 1 [1] => 2 [2] => 3 [3] => 4 [4] => 5 [5] => 6 )
 ```
 
-- Calculate the factorial of a number
+### Calculate the factorial of a number
   Write a function that takes an integer as input and returns the factorial of that number (i.e., the product of all positive integers up to and including that number).
 ```php
 function factorial($num) {
   if ($num === 0 || $num === 1) {
     return 1;
   }
-  return $num * factorial($num - 1);
+  return $num * factorial($num ### 1);
 }
 
 echo factorial(5); // Output: 120
 ```
 
-- Find the first non-repeated character in a string
+### Find the first non-repeated character in a string
   Write a function that takes a string as input and returns the first non-repeated character in the string. If there is no non-repeated character, return null.
 ```php
 function first_non_repeated_char($str) {
@@ -970,7 +970,7 @@ function first_non_repeated_char($str) {
 echo first_non_repeated_char("hello world"); // Output: "h"
 ```
 
-- Find the largest and smallest elements in an array
+### Find the largest and smallest elements in an array
   Write a function that takes an array of integers as input and returns an array containing the largest and smallest elements in the array.
 ```php
 function find_second_largest($arr) {
@@ -990,7 +990,7 @@ function find_second_largest($arr) {
 print_r(find_second_largest([3, 5, 1, 4, 2])); // Output: Array ( [0] => 1 [1] => 5 )
 ```
 
-- Find the second largest number in an array
+### Find the second largest number in an array
   Write a function that takes an array of integers as input and returns the second largest number in the array.
 ```php
 function find_second_largest($arr) {
@@ -1014,7 +1014,7 @@ echo find_second_largest([1, 2, 3, 4, 5]); // Output: 4
 echo find_second_largest([2, 2, 3, 1, 5]); // Output: 3
 ```
 
-- Find the highest product of three numbers in an array
+### Find the highest product of three numbers in an array
   Write a function that takes an array of integers as input and returns the highest product of three numbers in the array.
 
 This function first checks if the input array contains at least three integers and throws an exception if it does not.
@@ -1043,7 +1043,7 @@ echo find_highest_product([1, 2, 3, 4, 5]); // Output: 60
 echo find_highest_product([-10, -10, 5, 2]); // Output: 500       // -10 * -10 * 5 = 500.
 ```
 
-- Sum between values:
+### Sum between values:
 ```php 
 function sum_array($no1, $no2)
 {
@@ -1077,7 +1077,7 @@ function sum_array($no1, $no2)
 ```
 
 
-- Sum between indexes:
+### Sum between indexes:
 ```php
 function sum_between_indexes($arr, $index1, $index2)
 {
@@ -1097,7 +1097,7 @@ echo "The sum of the elements between index $index1 and $index2 is: $result";
 
 ```
 
-- Sum between values:
+### Sum between values:
 ```php
 function sum_between_values($arr, $val1, $val2)
 {
