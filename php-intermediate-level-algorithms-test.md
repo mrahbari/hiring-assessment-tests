@@ -1116,7 +1116,7 @@ $val1 = 30; // the first integer value we want to sum
 $val2 = 70; // the second integer value we want to sum
 $result = sum_between_values($arr, $val1, $val2);
 echo "The sum of the elements between $val1 and $val2 is: $result";
-
+```
 
 ### calculates the sum of digits in the date of birth and determines the reward amount based on the given conditions
 **An e-commerce website launches a customer survey to gather feedback on their product assortment. After the checkout process, customers are prompted to complete the survey. I would like a sample code that calculates the reward amount based on the date of birth entered. For example, if the date of birth is "1980-01-01," the sum of its digits is 20, resulting in a $20 reward. Similarly, if the date of birth is "2000-10-10," the sum of its digits is 4, resulting in a $4 reward. Please ensure that the reward is capped at $20.**
