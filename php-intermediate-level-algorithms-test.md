@@ -1118,3 +1118,52 @@ $result = sum_between_values($arr, $val1, $val2);
 echo "The sum of the elements between $val1 and $val2 is: $result";
 
 
+### calculates the sum of digits in the date of birth and determines the reward amount based on the given conditions
+**An e-commerce website launches a customer survey to gather feedback on their product assortment. After the checkout process, customers are prompted to complete the survey. I would like a sample code that calculates the reward amount based on the date of birth entered. For example, if the date of birth is "1980-01-01," the sum of its digits is 20, resulting in a $20 reward. Similarly, if the date of birth is "2000-10-10," the sum of its digits is 4, resulting in a $4 reward. Please ensure that the reward is capped at $20.**
+```php 
+function calculateReward($dob) {
+    // Remove any non-digit characters from the date of birth
+    $dobDigits = preg_replace('/\D/', '', $dob);
+
+    // Calculate the sum of digits
+    $sumOfDigits = array_sum(str_split($dobDigits));
+
+    // Cap the reward at $20
+    $reward = min($sumOfDigits, 20);
+
+    return $reward;
+}
+
+// Usage example:
+$dateOfBirth = "1980-01-01";
+$rewardAmount = calculateReward($dateOfBirth);
+echo "Reward: $" . $rewardAmount;     //20
+
+// Usage example:
+$dateOfBirth = "2000-10-10";
+$rewardAmount = calculateReward($dateOfBirth);
+echo "Reward: $" . $rewardAmount;     //4
+```
+
+
+### The FizzBuzz problem is a common programming task where you need to write a program that prints the numbers from 1 to a given number, replacing multiples of 3 with "Fizz," multiples of 5 with "Buzz," and multiples of both 3 and 5 with "FizzBuzz". Here's a sample PHP code that solves the FizzBuzz problem:
+
+```php
+function fizzBuzz($n) {
+    for ($i = 1; $i <= $n; $i++) {
+        if ($i % 3 == 0 && $i % 5 == 0) {
+            echo "FizzBuzz ";
+        } elseif ($i % 3 == 0) {
+            echo "Fizz ";
+        } elseif ($i % 5 == 0) {
+            echo "Buzz ";
+        } else {
+            echo $i . " ";
+        }
+    }
+}
+
+// Usage example:
+fizzBuzz(20);
+```
+
