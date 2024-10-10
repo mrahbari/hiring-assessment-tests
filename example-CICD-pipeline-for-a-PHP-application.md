@@ -1,0 +1,156 @@
+What is a CI CD pipeline?
+continuous integration and continuous deployment
+Overview. A continuous integration and continuous deployment (CI/CD) pipeline is a series of steps that must be performed in order to deliver a new version of software. 
+CI/CD pipelines are a practice focused on improving software delivery throughout the software development life cycle via automation.
+
+
+
+
+Here’s an example of a **CI/CD best practice** setup for a PHP application, using **GitLab CI**, **Docker**, and **Kubernetes** for deployment:
+
+### Example CI/CD Pipeline for a PHP Application
+
+#### **1. Directory Structure**
+```
+- app/
+    - src/
+    - tests/
+    - Dockerfile
+- .gitlab-ci.yml
+- docker-compose.yml
+```
+
+#### **2. `.gitlab-ci.yml` Configuration**
+This file defines your CI/CD pipeline for GitLab. The pipeline includes building the Docker image, running tests, and deploying to Kubernetes.
+
+```yaml
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  DOCKER_REGISTRY: registry.gitlab.com
+  DOCKER_IMAGE: $DOCKER_REGISTRY/$CI_PROJECT_PATH/app
+
+before_script:
+  - echo "Running before script: Install dependencies"
+  - apt-get update && apt-get install -y docker-compose
+
+# Step 1: Build Docker Image
+build:
+  stage: build
+  script:
+    - echo "Building the Docker image..."
+    - docker build -t $DOCKER_IMAGE:$CI_COMMIT_SHORT_SHA .
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $DOCKER_REGISTRY
+    - docker push $DOCKER_IMAGE:$CI_COMMIT_SHORT_SHA
+  only:
+    - main
+    - develop
+
+# Step 2: Run Tests (Unit and Integration)
+test:
+  stage: test
+  script:
+    - echo "Running tests..."
+    - docker-compose run --rm app vendor/bin/phpunit --coverage-text
+  only:
+    - merge_requests
+    - main
+    - develop
+
+# Step 3: Deploy to Kubernetes
+deploy:
+  stage: deploy
+  environment:
+    name: production
+    url: https://my-app.com
+  script:
+    - echo "Deploying to Kubernetes..."
+    - kubectl set image deployment/app app=$DOCKER_IMAGE:$CI_COMMIT_SHORT_SHA --record
+  only:
+    - main
+  when: manual  # Manual trigger for production deployment
+```
+
+#### **3. Dockerfile**
+A Dockerfile to containerize your PHP application.
+
+```dockerfile
+FROM php:8.1-fpm
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    zip \
+    libzip-dev \
+    unzip \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd \
+    && docker-php-ext-install pdo pdo_mysql zip
+
+# Copy application files
+COPY . /var/www/html
+
+# Set working directory
+WORKDIR /var/www/html
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+RUN composer install
+
+CMD ["php-fpm"]
+```
+
+#### **4. Docker Compose (Local Testing and Development)**
+Use `docker-compose.yml` to manage services for local testing.
+
+```yaml
+version: '3'
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "8000:80"
+    environment:
+      - APP_ENV=development
+    volumes:
+      - .:/var/www/html
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: app
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+```
+
+#### **5. Kubernetes Deployment**
+In the pipeline, the `deploy` stage uses **kubectl** to deploy the new Docker image to a Kubernetes cluster. The pipeline only deploys the latest image to production when manually triggered. This ensures that only approved changes make it to production.
+
+- **Rolling Deployments**: Kubernetes allows rolling deployments, where containers are gradually replaced without downtime.
+- **Rollback Strategy**: By using `--record`, you can track changes and easily rollback if something goes wrong using `kubectl rollout undo`.
+
+### **Best Practices in This Example:**
+1. **Automated Testing**: Every commit triggers a test run with PHPUnit to catch issues early.
+2. **Dockerization**: The application is containerized, ensuring consistency between development, testing, and production environments.
+3. **CI/CD Pipeline Automation**: The pipeline automates the process of building, testing, and deploying, minimizing manual intervention.
+4. **Kubernetes for Zero-Downtime Deployments**: Kubernetes manages rolling updates, reducing downtime during production deployments.
+5. **Manual Approval for Production**: The deployment to production requires manual approval, ensuring human oversight for critical environments.
+6. **Version Control of Deployments**: The deployment is version-controlled, allowing for easy rollbacks in case of issues.
+
+### **Pipeline Flow:**
+1. **Commit/Push**: Developer pushes code to the `main` branch.
+2. **CI Pipeline Trigger**:
+   - **Build Stage**: Docker image is built and pushed to the registry.
+   - **Test Stage**: PHPUnit tests are run inside a Docker container to ensure code correctness.
+   - **Deploy Stage**: After manual approval, the application is deployed to a Kubernetes cluster using the newly built Docker image.
+3. **Monitoring**: Once deployed, monitoring tools (e.g., Prometheus) track performance and error rates, allowing for quick responses to issues.
+
+This setup ensures continuous integration, automated testing, and safe deployments with minimal downtime while being easily scalable.
