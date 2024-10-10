@@ -20,11 +20,19 @@ Here’s an example of a **CI/CD best practice** setup for a PHP application, us
 - docker-compose.yml
 ```
 
-#### **2. `.gitlab-ci.yml` Configuration**
-This file defines your CI/CD pipeline for GitLab. The pipeline includes building the Docker image, running tests, and deploying to Kubernetes.
+Yes, you can integrate the **pre-commit checks** into your CI/CD pipeline to enforce code quality checks at every stage automatically, in addition to or as an alternative to local pre-commit hooks.
+
+Here’s how you can add **pre-commit checks** like **PHPStan**, **PHPCS**, and **PHPUnit** to your CI/CD pipeline to ensure that code quality is enforced during the CI build process. This way, even if a developer skips or doesn't run the pre-commit hook locally, the checks will still run in the CI pipeline.
+
+### Updated CI/CD Example with Pre-commit Checks in GitLab CI
+
+#### **1. Pre-commit Checks in CI/CD Pipeline (`.gitlab-ci.yml`)**
+
+In this updated configuration, the **build** stage will include **code quality checks** (PHPStan, PHPCS, and PHPUnit tests) as part of the CI pipeline. The CI pipeline will fail if any of these checks fail.
 
 ```yaml
 stages:
+  - quality
   - build
   - test
   - deploy
@@ -37,7 +45,21 @@ before_script:
   - echo "Running before script: Install dependencies"
   - apt-get update && apt-get install -y docker-compose
 
-# Step 1: Build Docker Image
+# Step 1: Pre-commit Quality Checks (PHPStan, PHPCS, PHPUnit)
+pre-commit:
+  stage: quality
+  script:
+    - echo "Running code quality checks with PHPStan, PHPCS, and PHPUnit..."
+    - composer install
+    - vendor/bin/phpstan analyse
+    - vendor/bin/phpcs --standard=PSR12
+    - vendor/bin/phpunit --testsuite unit
+  only:
+    - merge_requests
+    - main
+    - develop
+
+# Step 2: Build Docker Image
 build:
   stage: build
   script:
@@ -49,7 +71,7 @@ build:
     - main
     - develop
 
-# Step 2: Run Tests (Unit and Integration)
+# Step 3: Run Tests (Integration Tests)
 test:
   stage: test
   script:
@@ -60,7 +82,7 @@ test:
     - main
     - develop
 
-# Step 3: Deploy to Kubernetes
+# Step 4: Deploy to Kubernetes
 deploy:
   stage: deploy
   environment:
@@ -74,13 +96,28 @@ deploy:
   when: manual  # Manual trigger for production deployment
 ```
 
-#### **3. Dockerfile**
-A Dockerfile to containerize your PHP application.
+### Explanation of Pipeline Stages:
+
+1. **Quality Stage (Pre-commit checks)**:
+   - This stage runs **PHPStan**, **PHPCS**, and **PHPUnit** to enforce code quality before building and deploying the application.
+   - If any of these checks fail, the pipeline will fail, preventing poor-quality code from being built or deployed.
+   
+2. **Build Stage**:
+   - If the quality checks pass, the Docker image is built and pushed to the registry.
+
+3. **Test Stage**:
+   - Run additional tests, like integration or end-to-end tests, using the Docker container.
+
+4. **Deploy Stage**:
+   - Deploy the application to Kubernetes only if all previous stages succeed.
+
+#### **2. Dockerfile**
+To run the quality checks and tests inside the CI pipeline, make sure your **Dockerfile** includes all the required dependencies for PHPStan, PHPCS, and PHPUnit.
 
 ```dockerfile
 FROM php:8.1-fpm
 
-# Install dependencies
+# Install required dependencies
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
@@ -88,73 +125,55 @@ RUN apt-get update && apt-get install -y \
     zip \
     libzip-dev \
     unzip \
+    git \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd \
     && docker-php-ext-install pdo pdo_mysql zip
 
-# Copy application files
-COPY . /var/www/html
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+
+# Install PHPStan, PHPCS, and PHPUnit
+COPY composer.json composer.lock /var/www/html/
+RUN composer install --no-dev
 
 # Set working directory
 WORKDIR /var/www/html
 
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
-RUN composer install
-
 CMD ["php-fpm"]
 ```
 
-#### **4. Docker Compose (Local Testing and Development)**
-Use `docker-compose.yml` to manage services for local testing.
+#### **3. Composer Configuration**
+Ensure that **PHPStan**, **PHPCS**, and **PHPUnit** are installed as development dependencies in your `composer.json`.
 
-```yaml
-version: '3'
-services:
-  app:
-    build:
-      context: .
-    ports:
-      - "8000:80"
-    environment:
-      - APP_ENV=development
-    volumes:
-      - .:/var/www/html
-  mysql:
-    image: mysql:5.7
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: app
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-    ports:
-      - "3306:3306"
+```json
+{
+  "require-dev": {
+    "phpstan/phpstan": "^1.0",
+    "squizlabs/php_codesniffer": "^3.6",
+    "phpunit/phpunit": "^9.5"
+  }
+}
 ```
 
-#### **5. Kubernetes Deployment**
-In the pipeline, the `deploy` stage uses **kubectl** to deploy the new Docker image to a Kubernetes cluster. The pipeline only deploys the latest image to production when manually triggered. This ensures that only approved changes make it to production.
+### Benefits of Integrating Pre-commit Checks into CI/CD:
 
-- **Rolling Deployments**: Kubernetes allows rolling deployments, where containers are gradually replaced without downtime.
-- **Rollback Strategy**: By using `--record`, you can track changes and easily rollback if something goes wrong using `kubectl rollout undo`.
+1. **Consistency Across Environments**:
+   - Even if a developer skips running the pre-commit checks locally, the CI/CD pipeline will still enforce them in a consistent environment.
 
-### **Best Practices in This Example:**
-1. **Automated Testing**: Every commit triggers a test run with PHPUnit to catch issues early.
-2. **Dockerization**: The application is containerized, ensuring consistency between development, testing, and production environments.
-3. **CI/CD Pipeline Automation**: The pipeline automates the process of building, testing, and deploying, minimizing manual intervention.
-4. **Kubernetes for Zero-Downtime Deployments**: Kubernetes manages rolling updates, reducing downtime during production deployments.
-5. **Manual Approval for Production**: The deployment to production requires manual approval, ensuring human oversight for critical environments.
-6. **Version Control of Deployments**: The deployment is version-controlled, allowing for easy rollbacks in case of issues.
+2. **Automatic Code Quality Enforcement**:
+   - PHPStan and PHPCS ensure that the code adheres to quality standards, while PHPUnit ensures that the code passes all unit tests before deployment.
 
-### **Pipeline Flow:**
-1. **Commit/Push**: Developer pushes code to the `main` branch.
-2. **CI Pipeline Trigger**:
-   - **Build Stage**: Docker image is built and pushed to the registry.
-   - **Test Stage**: PHPUnit tests are run inside a Docker container to ensure code correctness.
-   - **Deploy Stage**: After manual approval, the application is deployed to a Kubernetes cluster using the newly built Docker image.
-3. **Monitoring**: Once deployed, monitoring tools (e.g., Prometheus) track performance and error rates, allowing for quick responses to issues.
+3. **Reduced Risk of Bugs**:
+   - Running unit tests and static analysis during the CI/CD process helps catch bugs early, reducing the chances of introducing bugs into production.
 
-This setup ensures continuous integration, automated testing, and safe deployments with minimal downtime while being easily scalable.
+4. **Early Feedback for Developers**:
+   - The pipeline will fail immediately if any code quality issues are detected, providing developers with early feedback.
 
+5. **Reliable Deployments**:
+   - Only high-quality code that passes all checks and tests will be built and deployed, increasing reliability in production environments.
+
+By integrating these checks directly into the pipeline, you automate the process and maintain consistent code quality throughout the development lifecycle.
 ---
 
 In a CI/CD pipeline, stages are defined as sequential steps in which specific actions or jobs are performed. The stages you mentioned (**quality**, **build**, **test**, and **deploy**) represent the typical lifecycle of a CI/CD process. These stages are executed in sequence, each one dependent on the success of the previous stage. If a stage fails, the pipeline stops, preventing bad code from moving forward.
