@@ -154,3 +154,197 @@ In the pipeline, the `deploy` stage uses **kubectl** to deploy the new Docker im
 3. **Monitoring**: Once deployed, monitoring tools (e.g., Prometheus) track performance and error rates, allowing for quick responses to issues.
 
 This setup ensures continuous integration, automated testing, and safe deployments with minimal downtime while being easily scalable.
+
+---
+
+In a CI/CD pipeline, stages are defined as sequential steps in which specific actions or jobs are performed. The stages you mentioned (**quality**, **build**, **test**, and **deploy**) represent the typical lifecycle of a CI/CD process. These stages are executed in sequence, each one dependent on the success of the previous stage. If a stage fails, the pipeline stops, preventing bad code from moving forward.
+
+### Example Overview of Stages:
+
+1. **Quality**: Ensures that the code meets quality standards (linting, code style, static analysis).
+2. **Build**: Compiles or builds the application (if applicable).
+3. **Test**: Runs unit, integration, or other tests.
+4. **Deploy**: Deploys the application to a server or environment (production, staging).
+
+### Running Stages Manually
+
+If you want to manually run the stages (or the jobs within them), you need to understand how CI/CD works for your platform. For example, in **GitLab**, the stages are defined in a `.gitlab-ci.yml` file, and each stage consists of jobs. The jobs within a stage can be manually triggered or rerun from the UI.
+
+If you are not using a CI tool and want to run these stages locally, you can execute the scripts for each stage one by one.
+
+### How to Manually Run Stages (Example with Shell Scripts)
+
+For demonstration purposes, here's an example of how you can manually run stages by using simple shell scripts in a **bash** environment.
+
+#### 1. **Quality Stage**
+
+This stage runs static analysis tools like **PHPStan**, **PHPCS**, or linters.
+
+```bash
+# quality.sh
+#!/bin/bash
+echo "Running code quality checks..."
+phpstan analyse
+phpcs --standard=PSR12 src/
+echo "Code quality checks completed."
+```
+
+Run it manually by executing:
+
+```bash
+./quality.sh
+```
+
+#### 2. **Build Stage**
+
+This stage compiles or builds the application. In the case of PHP, this may involve creating autoload files, setting up environment variables, or preparing build artifacts.
+
+```bash
+# build.sh
+#!/bin/bash
+echo "Building the application..."
+composer install --no-dev --optimize-autoloader
+echo "Build completed."
+```
+
+Run it manually:
+
+```bash
+./build.sh
+```
+
+#### 3. **Test Stage**
+
+This stage runs your tests, such as unit tests or integration tests using **PHPUnit** or similar tools.
+
+```bash
+# test.sh
+#!/bin/bash
+echo "Running tests..."
+phpunit --testsuite unit
+phpunit --testsuite integration
+echo "Tests completed."
+```
+
+Run it manually:
+
+```bash
+./test.sh
+```
+
+#### 4. **Deploy Stage**
+
+This stage deploys the application to your server. This could involve uploading files, running database migrations, or restarting services.
+
+```bash
+# deploy.sh
+#!/bin/bash
+echo "Deploying the application..."
+# Example deploy commands:
+scp -r ./build/ user@server:/var/www/app/
+ssh user@server 'cd /var/www/app && php artisan migrate'
+echo "Deployment completed."
+```
+
+Run it manually:
+
+```bash
+./deploy.sh
+```
+
+### Running Stages Sequentially
+
+To simulate a CI/CD pipeline manually, you can chain the scripts to ensure that each one only runs if the previous one succeeds.
+
+```bash
+#!/bin/bash
+
+# Run quality checks
+./quality.sh
+if [ $? -ne 0 ]; then
+  echo "Quality checks failed."
+  exit 1
+fi
+
+# Run build
+./build.sh
+if [ $? -ne 0 ]; then
+  echo "Build failed."
+  exit 1
+fi
+
+# Run tests
+./test.sh
+if [ $? -ne 0 ]; then
+  echo "Tests failed."
+  exit 1
+fi
+
+# Deploy
+./deploy.sh
+if [ $? -ne 0 ]; then
+  echo "Deployment failed."
+  exit 1
+fi
+
+echo "Pipeline completed successfully."
+```
+
+In this script:
+- `./quality.sh` runs the quality stage.
+- If it succeeds (`$?` is the exit code, which is `0` on success), it moves on to `./build.sh`.
+- If any stage fails, the pipeline stops, just like in a CI/CD system.
+
+### Example in GitLab CI/CD
+
+Here’s how the same concept could be defined in a **GitLab CI/CD** pipeline (`.gitlab-ci.yml`):
+
+```yaml
+stages:
+  - quality
+  - build
+  - test
+  - deploy
+
+quality:
+  stage: quality
+  script:
+    - phpstan analyse
+    - phpcs --standard=PSR12 src/
+  only:
+    - main
+
+build:
+  stage: build
+  script:
+    - composer install --no-dev --optimize-autoloader
+  only:
+    - main
+
+test:
+  stage: test
+  script:
+    - phpunit --testsuite unit
+    - phpunit --testsuite integration
+  only:
+    - main
+
+deploy:
+  stage: deploy
+  script:
+    - scp -r ./build/ user@server:/var/www/app/
+    - ssh user@server 'cd /var/www/app && php artisan migrate'
+  only:
+    - main
+  when: manual
+```
+
+In this pipeline:
+- Each stage is defined separately (`quality`, `build`, `test`, `deploy`).
+- The pipeline will stop if any stage fails (unless explicitly configured to continue).
+- The `deploy` stage is marked `manual`, meaning it will require human intervention to trigger.
+
+### Summary
+- **Stages**: Each stage in a CI/CD pipeline represents a logical grouping of jobs (quality checks, build, testing, deployment).
+- **Manual Execution**: You can simulate running stages manually by creating individual shell scripts and chaining them together to mimic a CI/CD process.
+- **Automated CI/CD**: Tools like GitLab CI, Jenkins, and GitHub Actions allow you to define stages that run automatically based on events (like code pushes).
