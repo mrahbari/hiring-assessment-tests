@@ -1261,3 +1261,103 @@ It includes method overriding (runtime polymorphism) and method overloading (com
 - **Interface**: Defines methods without implementations and allows multiple inheritances.
 - **Abstract class**: Can have both abstract methods and implemented methods. A class can only inherit one abstract class, but can implement multiple interfaces.
 
+---
+
+### Q67. What is the Object-Oriented Programming (OOP) in PHP?
+**Answer**:  
+Object-Oriented Programming (OOP) is a programming paradigm centered around the concept of "objects," which are instances of classes. It is based on four key principles:
+
+1. **Encapsulation**: This involves bundling data (attributes) and methods (functions or behaviors) that operate on that data into a single unit, known as a class. Encapsulation helps protect the data from being accessed or modified directly, ensuring that only certain parts of the class can interact with it.
+
+   *Example*:  
+   ```php
+   class Car {
+       private $speed;
+       
+       public function setSpeed($speed) {
+           $this->speed = $speed;
+       }
+
+       public function getSpeed() {
+           return $this->speed;
+       }
+   }
+
+   $car = new Car();
+   $car->setSpeed(100);
+   echo $car->getSpeed();  // Outputs: 100
+   ```
+
+2. **Inheritance**: This allows a class (child class) to inherit attributes and methods from another class (parent class), promoting code reusability and hierarchical classification.
+
+   *Example*:  
+   ```php
+   class Animal {
+       public function makeSound() {
+           echo "Animal sound!";
+       }
+   }
+
+   class Dog extends Animal {
+       public function makeSound() {
+           echo "Bark!";
+       }
+   }
+
+   $dog = new Dog();
+   $dog->makeSound();  // Outputs: Bark!
+   ```
+
+3. **Polymorphism**: This allows objects of different classes to be treated as objects of a common superclass. It also enables methods to be overridden or overloaded to behave differently based on the object type or parameters passed.
+
+   *Example*:  
+   ```php
+   class Animal {
+       public function makeSound() {
+           echo "Some sound";
+       }
+   }
+
+   class Cat extends Animal {
+       public function makeSound() {
+           echo "Meow!";
+       }
+   }
+
+   class Dog extends Animal {
+       public function makeSound() {
+           echo "Bark!";
+       }
+   }
+
+   $animals = [new Cat(), new Dog()];
+   foreach ($animals as $animal) {
+       $animal->makeSound();  // Outputs: Meow! and Bark!
+   }
+   ```
+
+4. **Abstraction**: This refers to hiding the complex implementation details and exposing only the necessary parts of the object, usually through abstract classes or interfaces.
+
+   *Example*:  
+   ```php
+   abstract class Shape {
+       abstract public function getArea();
+   }
+
+   class Circle extends Shape {
+       private $radius;
+
+       public function __construct($radius) {
+           $this->radius = $radius;
+       }
+
+       public function getArea() {
+           return pi() * pow($this->radius, 2);
+       }
+   }
+
+   $circle = new Circle(5);
+   echo $circle->getArea();  // Outputs: 78.5398 (approx)
+   ```
+
+These principles make OOP a powerful approach for building modular, maintainable, and scalable software systems.
