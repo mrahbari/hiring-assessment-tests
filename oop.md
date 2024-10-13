@@ -1361,3 +1361,64 @@ Object-Oriented Programming (OOP) is a programming paradigm centered around the 
    ```
 
 These principles make OOP a powerful approach for building modular, maintainable, and scalable software systems.
+
+---
+
+### Q67. What is the Diamond Problem in PHP?
+**Answer**:  
+The type of inheritance that may lead to the **diamond problem** is **multiple inheritance**. This occurs when a class inherits from two or more classes, and those parent classes share a common ancestor. In such a scenario, the inheriting class may end up with ambiguity, especially when the methods or properties from the common ancestor are inherited through multiple paths.
+
+## Diamond Problem
+The **diamond problem** is named after the shape formed in the class diagram, where one class inherits from two classes, which both inherit from a single base class. This can lead to ambiguity when calling methods or accessing properties from the common ancestor class.
+
+## Why PHP Doesn’t Have the Diamond Problem
+PHP does not support multiple inheritance directly. Instead, it uses **traits** to achieve similar functionality without the issues of multiple inheritance, avoiding the diamond problem.
+
+## Example: Simulating the Diamond Problem with Traits in PHP
+
+Here’s an example where PHP uses traits to avoid the diamond problem:
+
+```php
+<?php
+
+// Common ancestor class
+class Animal {
+    public function sound() {
+        return "Some generic animal sound";
+    }
+}
+
+// First trait, mimicking one inheritance path
+trait DogTrait {
+    public function sound() {
+        return "Bark";
+    }
+}
+
+// Second trait, mimicking another inheritance path
+trait CatTrait {
+    public function sound() {
+        return "Meow";
+    }
+}
+
+// Child class using both traits
+class Pet extends Animal {
+    use DogTrait, CatTrait {
+        CatTrait::sound insteadof DogTrait;
+        DogTrait::sound as dogSound; // Rename to resolve conflict
+    }
+}
+
+$pet = new Pet();
+echo $pet->sound();     // Outputs: Meow
+echo $pet->dogSound();  // Outputs: Bark
+```
+
+## Explanation:
+- `Pet` inherits traits from both `DogTrait` and `CatTrait`, which both have the `sound` method.
+- To avoid ambiguity, we specify that the `sound` method from `CatTrait` should be used (`insteadof DogTrait`).
+- The `DogTrait::sound` method is renamed to `dogSound` so we can still access it.
+
+This approach avoids the diamond problem by allowing the developer to explicitly resolve conflicts.
+
